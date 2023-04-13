@@ -1,0 +1,14 @@
+Shayan Salsabilian
+2/6/19
+A table of contents for pa2
+12B
+README
+
+
+Table of Contents:
+-README
+-Queens.java
+-Makefile
+
+Please Note:
+I discussed in pseudocode how to deal with -v in the main and drew a chess board to show how placeQueen worked with Noah House, we never looked at each others screens and only spoke in pseudocode or pictures.

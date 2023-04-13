@@ -1,0 +1,15 @@
+Shayan Salsabilian
+table of contents for Lab7
+3/10/19
+ssalsabi
+12B
+README
+
+table of contents:
+-README
+-Dictionary.java
+-Makefile
+-DictionaryInterface.java
+-DuplicateKeyException.java
+-KeyNotFoundException.java
+-DictionaryClient.java

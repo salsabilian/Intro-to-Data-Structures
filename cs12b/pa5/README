@@ -1,0 +1,17 @@
+Shayan Salsabilian
+ssalsabi
+3/14/19
+A table of contents for pa5
+12B
+README
+
+Table of Contents:
+-README
+-Dictionary.c
+-Dictionary.h
+-DictionaryTest.c
+-DictionaryClient.c
+-Makefile
+
+Please Note:
+	I discussed how to implement lookup() with Tre Braswell and I discussed how to implement the array of Nodes with Hunter Lynch. We only spoke in pseudocode and drawing diagrams.

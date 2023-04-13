@@ -1,0 +1,187 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class Simulation
+{
+	static Job getJob (Scanner in)
+	{
+		String[]s = in.nextLine ().split (" ");
+		int a = Integer.parseInt (s[0]);
+		int d = Integer.parseInt (s[1]);
+		return new Job (a, d);
+	}
+	public static void main (String[]args) throws IOException
+	{
+		Scanner in = null;
+		PrintWriter trc = null;
+		PrintWriter rpt = null;
+		if (args.length < 1)
+		{
+			System.out.println ("Usage: Simulation <input_file>");
+		}
+		//open files
+		in = new Scanner (new File (args[0]));
+		trc = new PrintWriter (new FileWriter (args[0] + ".trc"));
+		rpt = new PrintWriter (new FileWriter (args[0] + ".rpt"));
+		String Line = in.nextLine ();
+		int m = Integer.parseInt (Line);
+		int n = 1;
+		int time=0;
+		int wait=0;
+		int Maxwait=-1;
+		int finish=m;
+		int index=-1;
+		float totalwait=0;
+		Job Storage[] = new Job[m];
+		Queue tempStorage=new Queue();
+		for (int i = 0; i < m; i++)
+		{
+			Storage[i]=getJob(in);//enqueing all the jobs into position 0 of the queue 
+		}
+		rpt.println("Report file: "+args[0]+".rpt");
+		rpt.println(m+" Jobs:");
+		for(int i=0; i<Storage.length; i++){
+			rpt.print(Storage[i]+" ");
+		}
+		rpt.println();
+		rpt.println();
+		rpt.println("***********************************************************");
+		trc.println("Trace file: "+args[0]+".trc");
+		trc.println(m+" Jobs:");
+		for(int i=0; i<Storage.length; i++){
+			trc.print(Storage[i]+" ");
+		}
+		trc.println();
+		trc.println();	
+		while (n < m)
+		{
+			trc.println("*****************************");
+			if(n==1){
+				trc.println(n+" processor:");
+			}else{
+				trc.println(n+" processors:");
+			}
+			trc.println("*****************************");
+			trc.println("time="+time);
+			trc.print("0: ");
+			for(int i=0; i<Storage.length; i++){
+				trc.print(Storage[i]+" ");
+			}
+			trc.println();
+			for(int i=1;i<=n;i++){
+				trc.println(i+": ");
+			}
+			trc.println();
+			Queue Q[] = new Queue[n+1];
+			for(int i=0; i<=n;i++){
+				Q[i]=new Queue();
+			}
+			for(int i=0;i<m;i++){
+				Q[0].enqueue(Storage[i]);
+			}
+			int first=0;
+			while((Q[0].length()!=m)||(first==0))
+			{
+				//for(int s=1; s<=Q[0].length();s++){
+				if(Q[0].length()!=0){
+					Job check=(Job) Q[0].peek();
+					}
+					if(time==check.getArrival()){
+						for(int s=1; s<=Q[0].length();s++){
+						if(Q[0].length()!=0){
+						check=(Job) Q[0].peek();
+						}
+						if(time==check.getArrival()){ 
+						Job original=(Job) Q[0].dequeue();
+						int lowest=m;
+						for(int i=1; i<Q.length;i++){
+							int currentlength=(Q[i].length());
+							if(currentlength<lowest){
+								lowest=currentlength;
+								index=i;
+							}
+						}
+						if(Q[index].length()==0){
+							check.computeFinishTime(time);
+							wait=(check.getFinish())-(check.getArrival())-(check.getDuration());
+							totalwait=totalwait+wait;
+							if((Maxwait==-1)||(wait>Maxwait)){
+							Maxwait=wait;
+							}
+						}
+						Q[index].enqueue(check);
+						/*trc.println("time="+time);
+						for(int i=0; i<=n;i++){
+							trc.println(i+": "+Q[i]);
+						}
+						trc.println();*/
+					}
+					}
+					trc.println("time="+time);
+					for(int i=0; i<=n; i++){
+					trc.println(i+": "+Q[i]);
+					}
+				}
+				//}
+				int p=0;
+				int lowest=-1;
+					for(int i=1; i<=n; i++){
+						if(Q[i].length()!=0){
+							Job check2=(Job) Q[i].peek();
+							p=check2.getFinish();
+							if((lowest==-1)||(p<lowest)){
+								lowest=p;
+							}
+						}
+					}
+				if(time==lowest){
+					first++;
+					int index2=1;
+					for(int i=0;i<Q.length;i++){
+						if(Q[i].length()!=0){
+							Job check3= (Job) Q[i].peek(); 
+							if(check3.getFinish()==lowest){
+								Job fin=(Job) Q[i].dequeue();
+								Q[0].enqueue(fin);
+								if(Q[i].length()!=0){
+									Job peek=(Job) Q[i].peek();
+									peek.computeFinishTime(time);
+									wait=(peek.getFinish())-(peek.getArrival())-(peek.getDuration());
+									totalwait=totalwait+wait;
+									if((Maxwait==-1)||(wait>Maxwait)){
+									Maxwait=wait;
+									}
+								}
+							}
+						}
+					}
+				trc.println("time="+time);
+				for(int i=0; i<=n;i++){
+					trc.println(i+": "+Q[i]);
+				}
+				trc.println();
+			} 
+			time++;
+		}
+		float averagewait=(totalwait)/(Q[0].length());
+		if(n==1){
+			rpt.printf("%d processor: totalWait=%.0f, maxWait=%d, averageWait=%.2f\n",n, totalwait, Maxwait, averagewait);
+		}else{
+			rpt.printf("%d processors: totalWait=%.0f, maxWait=%d, averageWait=%.2f\n",n,totalwait,Maxwait, averagewait);	
+		}
+		Maxwait=-1;
+		totalwait=0;
+		wait=0;
+		for(int i=0; i<Storage.length;i++){
+			Job clean=Storage[i];
+			clean.resetFinishTime();
+		}
+		n++;
+		time=0;
+
+	}
+	in.close ();
+	rpt.close ();
+	trc.close ();
+}
+}

@@ -1,0 +1,15 @@
+Shayan Salsabilian
+ssalsabi
+A table of contents for lab5
+12B
+README
+
+Table of Contents:
+-README
+-Dictionary.c
+-DictionaryTest.c
+-Dictionary.h
+-DictionaryClient.c
+
+Please Note:
+	I used IntegerStack.c as a template for writing this program. I also worked on Linked Lists in C in CE13 so I have some practice with these types of programs already.

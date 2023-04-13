@@ -1,0 +1,18 @@
+Shayan Salsabilian
+ssalsabi
+A table of contents for pa3
+12B
+README
+
+Table of Contents:
+-README
+-Dictionary.java
+-DictionaryClient.java
+-DictionaryTest.java
+-DuplicateKeyException.java
+-KeyNotFoundException.java
+-DictionaryInterface.java
+-Makefile
+
+Please Note:
+ I used IntegerList.java and ListIndexOutofBounds.java as guides for writing my Dictionary.java and error exceptions. I have also taken CE13, so I have some practice in LinkedLists. I used method 1 where I created two string fields within my node instead of a single data field.
